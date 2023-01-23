@@ -1,0 +1,34 @@
+print("Programa para la tercer tarea")
+print("------------------------------------------------------------------------") 
+print("Histograma 1 (Carbohidratos (g)): ")
+import pandas as pd
+df = pd.read_excel('A01657409_Registro1.xlsx')
+import matplotlib.pyplot as plt
+df.hist(column="Carbohidratos (g)",color="darkturquoise",orientation="vertical")
+plt.show()
+print("Histograma 2 (Proteína (g)): ")
+df.hist(column="Proteína (g)",color="darkturquoise",orientation="vertical")
+plt.show()
+
+
+print("------------------------------------------------------------------------") 
+
+
+print("Cajas y bigotes: ")
+
+df.boxplot(column=["Carbohidratos (g)","Proteína (g)"],showcaps=True, grid=True)
+plt.show()
+
+print("------------------------------------------------------------------------") 
+
+print("Diagrama de calor: ")
+import matplotlib.pyplot as plt 
+pd.set_option("display.max_rows", None, "display.max_columns", None)
+numeric_only=True
+print(df.corr(numeric_only=True))      # es un dataframe
+
+
+import seaborn as sns
+plt.figure(figsize=(15, 5))
+sns.heatmap(df.corr(numeric_only=True), vmin=1, vmax=45, annot=True,cmap="RdYlGn")
+plt.show()
