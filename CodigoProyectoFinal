@@ -1,0 +1,153 @@
+print("Programa para el proyecto de análisis de datos")
+print("Programa para la segunda tarea")             #Primer tarea en realidad para el proyecto
+print("------------------------------------------------------------------------") 
+import pandas as pd
+df = pd.read_excel('A01657409_Registro1.xlsx')
+print("Número de filas, Número de columnas: ",df.shape)
+print("------------------------------------------------------------------------") 
+print("Nombre de cada columna del doc:   ", df.columns)
+print("------------------------------------------------------------------------")
+print("Qué datos tiene cada columna: ", df.dtypes)    
+print("------------------------------------------------------------------------")
+print("------------------------Columna: Calorías (kcal)------------------------------------")
+print("valores únicos: ", df["Calorías (kcal)"].unique()) 
+print("valor max: ",df["Calorías (kcal)"].max(), "      y       valor min: ",df["Calorías (kcal)"].min())       
+print("Media: ", df["Calorías (kcal)"].mean())        #promedio
+print("Mediana: ",df["Calorías (kcal)"].median())      #mediana (valor que se encuentra al centro de la lista ordenada de valores)
+print("Desv Est: ", df["Calorías (kcal)"].std())         #desviación estándar, qué tan dispersos están los datos alrededor de la media
+print("------------------------Columna: Carbohidratos (g)------------------------------------")
+print("valores únicos: ", df["Carbohidratos (g)"].unique()) 
+print("valor max: ",df["Carbohidratos (g)"].max(), "      y       valor min: ",df["Carbohidratos (g)"].min())       
+print("Media: ", df["Carbohidratos (g)"].mean())        #promedio
+print("Mediana: ",df["Carbohidratos (g)"].median())      #mediana (valor que se encuentra al centro de la lista ordenada de valores)
+print("Desv Est: ", df["Carbohidratos (g)"].std())         #desviación estándar, qué tan dispersos están los datos alrededor de la media
+print("------------------------Columna: Proteína (g)------------------------------------")
+print("valores únicos: ", df["Proteína (g)"].unique()) 
+print("valor max: ",df["Proteína (g)"].max(), "      y       valor min: ",df["Calorías (kcal)"].min())       
+print("Media: ", df["Proteína (g)"].mean())        #promedio
+print("Mediana: ",df["Proteína (g)"].median())      #mediana (valor que se encuentra al centro de la lista ordenada de valores)
+print("Desv Est: ", df["Proteína (g)"].std())         #desviación estándar, qué tan dispersos están los datos alrededor de la media
+print("------------------------Columna: Grasas (g)------------------------------------")
+print("valores únicos: ", df["Lípidos/grasas (g)"].unique()) 
+print("valor max: ",df["Lípidos/grasas (g)"].max(), "      y       valor min: ",df["Lípidos/grasas (g)"].min())       
+print("Media: ", df["Lípidos/grasas (g)"].mean())        #promedio
+print("Mediana: ",df["Lípidos/grasas (g)"].median())      #mediana (valor que se encuentra al centro de la lista ordenada de valores)
+print("Desv Est: ", df["Lípidos/grasas (g)"].std())         #desviación estándar, qué tan dispersos están los datos alrededor de la media
+print("------------------------Columna: Sodio (mg) ------------------------------------")
+print("valores únicos: ", df["Sodio (mg)"].unique()) 
+print("valor max: ",df["Sodio (mg)"].max(), "      y       valor min: ",df["Sodio (mg)"].min())       
+print("Media: ", df["Sodio (mg)"].mean())        #promedio
+print("Mediana: ",df["Sodio (mg)"].median())      #mediana (valor que se encuentra al centro de la lista ordenada de valores)
+print("Desv Est: ", df["Sodio (mg)"].std())         #desviación estándar, qué tan dispersos están los datos alrededor de la media
+print("Programa para la tercer tarea")
+print("------------------------------------------------------------------------") 
+print("Histograma 1 (Calorías (kcal)): ")
+import pandas as pd
+df = pd.read_excel('A01657409_Registro1.xlsx')
+import matplotlib.pyplot as plt
+df.hist(column="Calorías (kcal)",color="black",orientation="vertical")
+plt.show()
+print("------------------------------------------------------------------------") 
+print("Histograma 2 (Carbohidratos (g)): ")
+df = pd.read_excel('A01657409_Registro1.xlsx')
+df.hist(column="Carbohidratos (g)",color="darkturquoise",orientation="vertical")
+plt.show()
+print("------------------------------------------------------------------------") 
+print("Histograma 3 (Proteína (g)): ")
+df.hist(column="Proteína (g)",color="red",orientation="vertical")
+plt.show()
+print("------------------------------------------------------------------------") 
+print("Histograma 4 (Lípidos/grasas (g)): ")
+df.hist(column="Lípidos/grasas (g)",color="yellow",orientation="vertical")
+plt.show()
+print("------------------------------------------------------------------------") 
+print("Histograma 4 (Sodio (mg)): ")
+df.hist(column="Sodio (mg)",color="green",orientation="vertical")
+plt.show()
+
+
+print("------------------------------------------------------------------------") 
+
+
+print("Cajas y bigotes: ")
+
+df.boxplot(column=["Carbohidratos (g)","Proteína (g)","Lípidos/grasas (g)"],showcaps=True, grid=True,showmeans = True)
+plt.show()
+df.boxplot(column=["Calorías (kcal)"],showcaps=True, grid=True,showmeans = True)
+plt.show()
+
+print("------------------------------------------------------------------------") 
+
+print("Diagrama de calor: ")
+import matplotlib.pyplot as plt 
+pd.set_option("display.max_rows", None, "display.max_columns", None)
+numeric_only=True
+print(df.corr())      # es un dataframe
+
+
+import seaborn as sns
+plt.figure(figsize=(15, 5))
+sns.heatmap(df.corr(), vmin=-1, vmax=1, annot=True,cmap="RdYlGn")
+plt.show()
+
+import pandas as pd
+df = pd.read_excel('A01657409_Registro1.xlsx')
+from sklearn.cluster import KMeans #instalar scikit-learn
+
+print("------------------------------------------------------------------------") 
+test = df[["Carbohidratos (g)","Calorías (kcal)"]]
+print(test.dtypes)
+test = test.dropna(axis = 0, how = 'any')
+kmeans = KMeans(n_clusters=2,n_init=1).fit(test)
+centroids = kmeans.cluster_centers_
+print("Centroides: ", centroids)
+cla = kmeans.predict(test)                   
+print(cla)
+# Predicción para un nuevo dato
+data = {'Carbohidratos (g)': [9], 'Calorías (kcal)': [250]}
+newdf = pd.DataFrame(data)  
+print(kmeans.predict(newdf))
+
+import matplotlib.pyplot as plt
+plt.scatter(test["Carbohidratos (g)"],test["Calorías (kcal)"],c=cla)
+for i in range(len(centroids)):
+  plt.scatter(centroids[i][0],centroids[i][1],marker="*",c="red")
+plt.show()
+
+print("------------------------------------------------------------------------") 
+test = df[["Proteína (g)","Calorías (kcal)"]]
+print(test.dtypes)
+test = test.dropna(axis = 0, how = 'any')
+kmeans = KMeans(n_clusters=2,n_init=1).fit(test)
+centroids = kmeans.cluster_centers_
+print("Centroides: ", centroids)
+cla = kmeans.predict(test)                   
+print(cla)
+# Predicción para un nuevo dato
+data = {'Proteína (g)': [9], 'Calorías (kcal)': [250]}
+newdf = pd.DataFrame(data)  
+print(kmeans.predict(newdf))
+
+plt.scatter(test["Proteína (g)"],test["Calorías (kcal)"],c=cla)
+for i in range(len(centroids)):
+  plt.scatter(centroids[i][0],centroids[i][1],marker="*",c="red")
+plt.show()
+
+print("------------------------------------------------------------------------") 
+test = df[["Lípidos/grasas (g)","Calorías (kcal)"]]
+print(test.dtypes)
+test = test.dropna(axis = 0, how = 'any')
+kmeans = KMeans(n_clusters=3,n_init=1).fit(test)
+centroids = kmeans.cluster_centers_
+print("Centroides: ", centroids)
+cla = kmeans.predict(test)                   
+print(cla)
+# Predicción para un nuevo dato
+data = {'Lípidos/grasas (g)': [9], 'Calorías (kcal)': [250]}
+newdf = pd.DataFrame(data)  
+print(kmeans.predict(newdf))
+
+plt.scatter(test["Lípidos/grasas (g)"],test["Calorías (kcal)"],c=cla)
+for i in range(len(centroids)):
+  plt.scatter(centroids[i][0],centroids[i][1],marker="*",c="red")
+plt.show()
